@@ -1,0 +1,46 @@
+{% set name = "innoextract" %}
+{% set version = "1.9" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  fn: "{{ name|lower }}-{{ version }}.tar.gz"
+  url: "https://constexpr.org/innoextract/files/innoextract-{{ version }}.tar.gz"
+  sha256: "6344a69fc1ed847d4ed3e272e0da5998948c6b828cb7af39c6321aba6cf88126"
+
+build:
+  number: 0
+  skip: True    # [win]
+
+requirements:
+  build:
+    - {{ compiler("cxx") }}
+    - cmake >=2.8
+    - ninja
+  host:
+    - boost >=1.37
+    - xz
+  run:
+    - libboost
+
+test:
+  commands:
+    - innoextract --version
+
+about:
+  home: https://constexpr.org/innoextract/
+  license_file: LICENSE
+  license: Zlib
+  summary: A tool to unpack installers created by Inno Setup
+  description: |
+    innoextract allows to extract such installers under non-Windows systems without running the actual installer using wine. innoextract currently supports installers created by Inno Setup 1.2.10 to 6.2.2.
+
+    In addition to standard Inno Setup installers, innoextract also supports some modified Inno Setup variants including Martijn Laan's My Inno Setup Extensions 1.3.10 to 3.0.6.1 as well as GOG.com's Inno Setup-based game installers. innoextract is able to unpack Wadjet Eye Games installers (to play with AGS), Arx Fatalis patches (for use with Arx Libertatis) as well as various other Inno Setup executables.
+  dev_url: https://github.com/dscharrer/innoextract
+  doc_url: https://constexpr.org/innoextract/innoextract.1
+
+extra:
+  recipe-maintainers:
+    - chenghlee
